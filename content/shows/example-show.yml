@@ -1,0 +1,35 @@
+# Example show metadata file for the MCB archives site
+# Copy this file and adjust the values for each new show.
+
+id: example-show-2024-06-20        # stable identifier/slug (no spaces)
+title: "Example Show – June 20, 2024"
+
+# Paths or keys for your audio and cover art files.
+# In development, these might be relative paths under your web app (e.g. /audio/...).
+# In production, they might be S3 keys that your app maps to full URLs.
+# For example: s3://your-bucket/audio/example-show-2024-06-20.mp3
+audio_file: "audio/example-show-2024-06-20.mp3"
+cover_art_file: "images/example-show-2024-06-20.jpg"
+
+# Show timing and origin
+length: "01:02:33"                  # HH:MM:SS as string
+original_air_date: 2024-06-20       # ISO date (YYYY-MM-DD)
+original_outlet: "Your Station Name or Outlet"
+
+# One or more genres describing the show
+genres:
+  - "house"
+  - "deep house"
+  - "electronica"
+
+# Ordered track log for this show
+tracks:
+  - index: 1
+    title: "First Track Title"
+    artist: "First Artist"
+    remix: "Remix Name (optional)"   # omit this line if no remix info
+
+  - index: 2
+    title: "Second Track Title"
+    artist: "Second Artist"
+    # remix omitted means no remix info
