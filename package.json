@@ -1,0 +1,32 @@
+{
+  "name": "mcb-archives-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "seed": "tsx scripts/seed.ts",
+    "seed:dry": "tsx scripts/seed.ts --dry-run",
+    "lint": "next lint",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.scripts.json"
+  },
+  "dependencies": {
+    "glob": "^11.0.0",
+    "js-yaml": "^4.1.0",
+    "mongodb": "^6.12.0",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "eslint": "^9.19.0",
+    "eslint-config-next": "^15.1.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
