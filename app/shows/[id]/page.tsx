@@ -6,7 +6,12 @@ import { getShowById } from "../../../lib/shows";
 
 export default async function ShowDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const show = await getShowById(id);
+  let show: Awaited<ReturnType<typeof getShowById>> | null = null;
+  try {
+    show = await getShowById(id);
+  } catch {
+    show = null;
+  }
   if (!show) return notFound();
 
   return (

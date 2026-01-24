@@ -32,3 +32,15 @@ This repo treats YAML files under [content/shows](content/shows) as the authorin
 - Seed (upsert + indexes): `npm run seed`
 
 More details: [docs/SEEDING.md](docs/SEEDING.md)
+
+## Local dev
+
+- Set Mongo env vars in `.env.local` (recommended) or `.env`:
+	- `MONGODB_URI=...`
+	- `MONGODB_DB=mcb_archives`
+- Seed from YAML: `npm run seed`
+- Run locally: `npm run dev` → open `http://localhost:3000`
+
+## Cloudflare R2 notes
+
+- CORS setup for images/audio: [docs/R2_CORS.md](docs/R2_CORS.md)

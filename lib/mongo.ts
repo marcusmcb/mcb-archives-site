@@ -9,8 +9,18 @@ export function getMongoEnv() {
   const uri = process.env.MONGODB_URI;
   const dbName = process.env.MONGODB_DB;
 
-  if (!uri) throw new Error("Missing env var MONGODB_URI (set it in .env.local)");
-  if (!dbName) throw new Error("Missing env var MONGODB_DB (set it in .env.local)");
+  const looksLikePlaceholder = (value: string) => value.includes("<user>") || value.includes("<pass>") || value.includes("<cluster>") || value.includes("<db>");
+
+  if (!uri || looksLikePlaceholder(uri)) {
+    throw new Error(
+      "MongoDB is not configured. Set MONGODB_URI in .env.local (or .env) to a real MongoDB connection string."
+    );
+  }
+  if (!dbName || looksLikePlaceholder(dbName)) {
+    throw new Error(
+      "MongoDB is not configured. Set MONGODB_DB in .env.local (or .env) to your database name (e.g. mcb_archives)."
+    );
+  }
 
   return { uri, dbName };
 }

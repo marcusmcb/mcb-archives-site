@@ -14,7 +14,17 @@ export default async function Home({
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
   const limit = 6;
 
-  const { shows, total } = await getShows({ q, genre, page, limit });
+  let shows: Awaited<ReturnType<typeof getShows>>["shows"] = [];
+  let total = 0;
+  let mongoError: string | null = null;
+
+  try {
+    const result = await getShows({ q, genre, page, limit });
+    shows = result.shows;
+    total = result.total;
+  } catch (err: any) {
+    mongoError = err?.message ? String(err.message) : "Unable to load shows from MongoDB.";
+  }
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
   return (
@@ -53,6 +63,14 @@ export default async function Home({
           <ShowCard key={s.id} show={s} />
         ))}
       </div>
+
+      {mongoError ? (
+        <div style={{ marginTop: 16, color: "var(--muted)" }}>
+          <div style={{ fontWeight: 700, marginBottom: 6 }}>No data yet</div>
+          <div style={{ marginBottom: 10 }}>{mongoError}</div>
+          <div>Fix: set `MONGODB_URI` + `MONGODB_DB` in `.env.local` (or `.env`), then run `npm run seed`.</div>
+        </div>
+      ) : null}
 
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 16 }}>
         <div style={{ color: "var(--muted)", fontSize: 12 }}>
