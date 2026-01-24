@@ -2,13 +2,13 @@ import { NextResponse } from "next/server";
 
 import { getUpvotesForShow, upvoteShowOnce } from "../../../../../lib/votes";
 
-export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
+export const GET = async (_req: Request, ctx: { params: Promise<{ id: string }> }) => {
   const { id } = await ctx.params;
   const upvotes = await getUpvotesForShow(id);
   return NextResponse.json({ showId: id, upvotes });
-}
+};
 
-export async function POST(req: Request, ctx: { params: Promise<{ id: string }> }) {
+export const POST = async (req: Request, ctx: { params: Promise<{ id: string }> }) => {
   const { id } = await ctx.params;
   const deviceId = req.headers.get("x-device-id")?.trim();
   if (!deviceId) {
@@ -17,4 +17,4 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
 
   const result = await upvoteShowOnce({ showId: id, deviceId });
   return NextResponse.json(result);
-}
+};

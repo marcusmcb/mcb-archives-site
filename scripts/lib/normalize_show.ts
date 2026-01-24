@@ -1,13 +1,13 @@
 import type { ShowDoc, ShowYaml } from "./types.js";
 
-function requireString(value: unknown, label: string): string {
+const requireString = (value: unknown, label: string): string => {
   if (typeof value !== "string" || value.trim().length === 0) {
     throw new Error(`Missing/invalid ${label}`);
   }
   return value.trim();
-}
+};
 
-function requireStringArray(value: unknown, label: string): string[] {
+const requireStringArray = (value: unknown, label: string): string[] => {
   if (!Array.isArray(value) || value.length === 0) {
     throw new Error(`Missing/invalid ${label} (expected non-empty array)`);
   }
@@ -21,31 +21,31 @@ function requireStringArray(value: unknown, label: string): string[] {
   }
 
   return Array.from(new Set(result));
-}
+};
 
-function requireIsoDate(value: unknown, label: string): Date {
+const requireIsoDate = (value: unknown, label: string): Date => {
   const raw = requireString(value, label);
   const date = new Date(raw);
   if (Number.isNaN(date.getTime())) {
     throw new Error(`Invalid ${label} (expected ISO date string): ${raw}`);
   }
   return date;
-}
+};
 
-function buildSearchText(show: {
+const buildSearchText = (show: {
   id: string;
   title: string;
   station: string;
   genres: string[];
   songs: { title: string; artist: string }[];
-}): string {
+}): string => {
   const songBits = show.songs.flatMap((s) => [s.title, s.artist]);
   return [show.id, show.title, show.station, ...show.genres, ...songBits]
     .join(" ")
     .toLowerCase();
-}
+};
 
-export function normalizeShow(y: ShowYaml, sourcePath: string, now: Date): Omit<ShowDoc, "createdAt"> {
+export const normalizeShow = (y: ShowYaml, sourcePath: string, now: Date): Omit<ShowDoc, "createdAt"> => {
   const id = requireString(y.id, "id");
   const title = requireString(y.title, "title");
   const image = requireString(y.image, "image");
@@ -93,4 +93,4 @@ export function normalizeShow(y: ShowYaml, sourcePath: string, now: Date): Omit<
     updatedAt: now,
     upvotes: 0,
   };
-}
+};

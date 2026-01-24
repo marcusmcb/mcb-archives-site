@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getShows } from "../../../lib/shows";
 
-export async function GET(req: Request) {
+export const GET = async (req: Request) => {
   const url = new URL(req.url);
   const q = (url.searchParams.get("q") ?? "").trim();
   const genre = (url.searchParams.get("genre") ?? "").trim().toLowerCase();
@@ -11,4 +11,4 @@ export async function GET(req: Request) {
 
   const data = await getShows({ q, genre, page, limit });
   return NextResponse.json(data);
-}
+};

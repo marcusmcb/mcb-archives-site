@@ -10,31 +10,31 @@ type ReactionDoc = {
   createdAt: Date;
 };
 
-async function reactionsCollection(): Promise<Collection<ReactionDoc>> {
+const reactionsCollection = async (): Promise<Collection<ReactionDoc>> => {
   const client = await getMongoClient();
   const { dbName } = getMongoEnv();
   return client.db(dbName).collection<ReactionDoc>("show_reactions");
-}
+};
 
-async function showsCollection(): Promise<Collection<ShowDb>> {
+const showsCollection = async (): Promise<Collection<ShowDb>> => {
   const client = await getMongoClient();
   const { dbName } = getMongoEnv();
   return client.db(dbName).collection<ShowDb>("shows");
-}
+};
 
-export async function getUpvotesForShow(showId: string): Promise<number> {
+export const getUpvotesForShow = async (showId: string): Promise<number> => {
   const shows = await showsCollection();
   const doc = await shows.findOne({ id: showId }, { projection: { upvotes: 1 } });
   return typeof doc?.upvotes === "number" ? doc.upvotes : 0;
-}
+};
 
-export async function upvoteShowOnce({
+export const upvoteShowOnce = async ({
   showId,
   deviceId
 }: {
   showId: string;
   deviceId: string;
-}): Promise<{ showId: string; upvotes: number; status: "ok" | "duplicate" }> {
+}): Promise<{ showId: string; upvotes: number; status: "ok" | "duplicate" }> => {
   const reactions = await reactionsCollection();
   const shows = await showsCollection();
 
@@ -50,4 +50,4 @@ export async function upvoteShowOnce({
     }
     throw err;
   }
-}
+};

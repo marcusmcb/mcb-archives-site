@@ -1,7 +1,7 @@
 const KEY = "mcb:favorites";
 const EVENT = "mcb:favorites:changed";
 
-export function getFavoriteIds(): string[] {
+export const getFavoriteIds = (): string[] => {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(KEY);
@@ -12,24 +12,24 @@ export function getFavoriteIds(): string[] {
   } catch {
     return [];
   }
-}
+};
 
-export function isFavorite(showId: string): boolean {
+export const isFavorite = (showId: string): boolean => {
   return getFavoriteIds().includes(showId);
-}
+};
 
-function setFavoriteIds(ids: string[]): void {
+const setFavoriteIds = (ids: string[]): void => {
   window.localStorage.setItem(KEY, JSON.stringify(Array.from(new Set(ids))));
   window.dispatchEvent(new Event(EVENT));
-}
+};
 
-export function toggleFavorite(showId: string): void {
+export const toggleFavorite = (showId: string): void => {
   const ids = getFavoriteIds();
   if (ids.includes(showId)) setFavoriteIds(ids.filter((id) => id !== showId));
   else setFavoriteIds([...ids, showId]);
-}
+};
 
-export function subscribeFavorites(cb: () => void): () => void {
+export const subscribeFavorites = (cb: () => void): () => void => {
   const handler = () => cb();
   window.addEventListener(EVENT, handler);
   window.addEventListener("storage", handler);
@@ -37,4 +37,4 @@ export function subscribeFavorites(cb: () => void): () => void {
     window.removeEventListener(EVENT, handler);
     window.removeEventListener("storage", handler);
   };
-}
+};

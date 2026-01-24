@@ -13,7 +13,7 @@ export type ShowCardModel = {
   upvotes: number;
 };
 
-export function ShowCard({ show }: { show: ShowCardModel }) {
+export const ShowCard = ({ show }: { show: ShowCardModel }) => {
   const dateText = show.original_broadcast_display ?? show.original_broadcast.slice(0, 10);
 
   return (
@@ -49,4 +49,4 @@ export function ShowCard({ show }: { show: ShowCardModel }) {
       </div>
     </div>
   );
-}
+};

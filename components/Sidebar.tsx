@@ -4,7 +4,7 @@ type Props = {
   genres: string[];
 };
 
-export function Sidebar({ genres }: Props) {
+export const Sidebar = ({ genres }: Props) => {
   return (
     <div>
       <nav className="nav">
@@ -21,10 +21,24 @@ export function Sidebar({ genres }: Props) {
         ) : null}
         {genres.map((g) => (
           <li key={g}>
-            <Link href={`/?genre=${encodeURIComponent(g)}`}>{g}</Link>
+            <Link href={`/?genre=${encodeURIComponent(g)}`}>
+              <span className="genreIcon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M20.59 13.41 13.41 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle cx="7" cy="7" r="1.2" fill="currentColor" />
+                </svg>
+              </span>
+              <span>{g}</span>
+            </Link>
           </li>
         ))}
       </ul>
     </div>
   );
-}
+};

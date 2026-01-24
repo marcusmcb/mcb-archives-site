@@ -5,7 +5,7 @@ export type MongoConfig = {
   dbName: string;
 };
 
-export function getMongoConfigFromEnv(): MongoConfig {
+export const getMongoConfigFromEnv = (): MongoConfig => {
   const uri = process.env.MONGODB_URI;
   const dbName = process.env.MONGODB_DB;
 
@@ -13,9 +13,9 @@ export function getMongoConfigFromEnv(): MongoConfig {
   if (!dbName) throw new Error("Missing env var MONGODB_DB");
 
   return { uri, dbName };
-}
+};
 
-export async function withMongo<T>(config: MongoConfig, fn: (client: MongoClient) => Promise<T>): Promise<T> {
+export const withMongo = async <T,>(config: MongoConfig, fn: (client: MongoClient) => Promise<T>): Promise<T> => {
   const client = new MongoClient(config.uri);
   await client.connect();
   try {
@@ -23,4 +23,4 @@ export async function withMongo<T>(config: MongoConfig, fn: (client: MongoClient
   } finally {
     await client.close();
   }
-}
+};

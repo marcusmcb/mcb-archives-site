@@ -4,7 +4,7 @@ import { FavoriteButton } from "../../../components/FavoriteButton";
 import { UpvoteButton } from "../../../components/UpvoteButton";
 import { getShowById } from "../../../lib/shows";
 
-export default async function ShowDetailPage({ params }: { params: Promise<{ id: string }> }) {
+const ShowDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   let show: Awaited<ReturnType<typeof getShowById>> | null = null;
   try {
@@ -45,9 +45,6 @@ export default async function ShowDetailPage({ params }: { params: Promise<{ id:
           <div className="card" style={{ padding: 12 }}>
             <div style={{ fontWeight: 700, marginBottom: 10 }}>Listen</div>
             <audio controls preload="metadata" style={{ width: "100%" }} src={show.audio_file_link} />
-            <div style={{ color: "var(--muted)", fontSize: 12, marginTop: 8 }}>
-              If seeking doesn’t work smoothly, confirm your audio host supports HTTP range requests.
-            </div>
           </div>
 
           <div style={{ height: 12 }} />
@@ -67,4 +64,6 @@ export default async function ShowDetailPage({ params }: { params: Promise<{ id:
       </div>
     </div>
   );
-}
+};
+
+export default ShowDetailPage;

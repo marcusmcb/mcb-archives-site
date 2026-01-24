@@ -24,6 +24,10 @@ This workflow scales nicely:
 - `MONGODB_URI=...`
 - `MONGODB_DB=...`
 
+Security note:
+- Keep `.env` / `.env.local` out of git (this repo ignores them via `.gitignore`).
+- If you ever paste a connection string into chat/logs, rotate the DB password.
+
 If you’re running the Next.js app locally, prefer `.env.local` (see [.env.local.example](../.env.local.example)).
 
 ## Run seed

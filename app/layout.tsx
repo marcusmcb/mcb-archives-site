@@ -2,6 +2,9 @@ import "./globals.css";
 
 import type { ReactNode } from "react";
 
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
+
 import { Sidebar } from "../components/Sidebar";
 import { getGenres } from "../lib/shows";
 
@@ -10,12 +13,12 @@ export const metadata = {
   description: "Archive of previously aired mixshow sets from djmarcusmcb"
 };
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
   const genres = await getGenres().catch(() => [] as string[]);
 
   return (
     <html lang="en">
-      <body>
+      <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         <div className="mobileHeader">
           <div style={{ fontWeight: 800 }}>MCB Archives</div>
           <div style={{ color: "var(--muted)", fontSize: 12 }}>Menu in page</div>
@@ -32,4 +35,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

@@ -33,13 +33,13 @@ export type ShowCard = {
   upvotes: number;
 };
 
-async function showsCollection(): Promise<Collection<ShowDb>> {
+const showsCollection = async (): Promise<Collection<ShowDb>> => {
   const client = await getMongoClient();
   const { dbName } = getMongoEnv();
   return client.db(dbName).collection<ShowDb>("shows");
-}
+};
 
-function toCard(s: ShowDb): ShowCard {
+const toCard = (s: ShowDb): ShowCard => {
   return {
     id: s.id,
     title: s.title,
@@ -50,18 +50,18 @@ function toCard(s: ShowDb): ShowCard {
     station: s.station,
     upvotes: s.upvotes ?? 0
   };
-}
+};
 
-export async function getGenres(): Promise<string[]> {
+export const getGenres = async (): Promise<string[]> => {
   const col = await showsCollection();
   const genres = await col.distinct("genres");
   return genres
     .map((g) => String(g).toLowerCase())
     .filter(Boolean)
     .sort((a, b) => a.localeCompare(b));
-}
+};
 
-export async function getShows({
+export const getShows = async ({
   q,
   genre,
   page,
@@ -71,7 +71,7 @@ export async function getShows({
   genre: string;
   page: number;
   limit: number;
-}): Promise<{ shows: ShowCard[]; total: number }> {
+}): Promise<{ shows: ShowCard[]; total: number }> => {
   const col = await showsCollection();
 
   const filter: Record<string, unknown> = {};
@@ -93,18 +93,18 @@ export async function getShows({
     .toArray();
 
   return { shows: docs.map(toCard), total };
-}
+};
 
-export async function getShowById(id: string): Promise<ShowDb | null> {
+export const getShowById = async (id: string): Promise<ShowDb | null> => {
   const col = await showsCollection();
   return await col.findOne({ id });
-}
+};
 
-export async function getShowsByIds(ids: string[]): Promise<ShowCard[]> {
+export const getShowsByIds = async (ids: string[]): Promise<ShowCard[]> => {
   const col = await showsCollection();
   const docs = await col
     .find({ id: { $in: ids } })
     .sort({ original_broadcast: -1 })
     .toArray();
   return docs.map(toCard);
-}
+};

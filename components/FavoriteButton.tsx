@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { isFavorite, toggleFavorite } from "../lib/favorites";
 
-export function FavoriteButton({ showId, compact }: { showId: string; compact?: boolean }) {
+export const FavoriteButton = ({ showId, compact }: { showId: string; compact?: boolean }) => {
   const [fav, setFav] = useState(false);
 
   useEffect(() => {
@@ -27,4 +27,4 @@ export function FavoriteButton({ showId, compact }: { showId: string; compact?: 
       {!compact ? <span>{fav ? "Favorited" : "Favorite"}</span> : null}
     </button>
   );
-}
+};

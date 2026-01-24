@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ShowCard, type ShowCardModel } from "../../components/ShowCard";
 import { getFavoriteIds, subscribeFavorites } from "../../lib/favorites";
 
-export default function FavoritesPage() {
+const FavoritesPage = () => {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [shows, setShows] = useState<ShowCardModel[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,9 +48,6 @@ export default function FavoritesPage() {
       <div className="topbar">
         <div>
           <h1 style={{ margin: 0 }}>Favorites</h1>
-          <div style={{ color: "var(--muted)", fontSize: 12, marginTop: 4 }}>
-            Saved in this browser (no account needed)
-          </div>
         </div>
         <Link className="pill" href="/">
           Back to all shows
@@ -70,4 +67,6 @@ export default function FavoritesPage() {
       </div>
     </div>
   );
-}
+};
+
+export default FavoritesPage;

@@ -5,11 +5,12 @@ declare global {
   var __mcbMongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-export function getMongoEnv() {
+export const getMongoEnv = () => {
   const uri = process.env.MONGODB_URI;
   const dbName = process.env.MONGODB_DB;
 
-  const looksLikePlaceholder = (value: string) => value.includes("<user>") || value.includes("<pass>") || value.includes("<cluster>") || value.includes("<db>");
+  const looksLikePlaceholder = (value: string) =>
+    value.includes("<user>") || value.includes("<pass>") || value.includes("<cluster>") || value.includes("<db>");
 
   if (!uri || looksLikePlaceholder(uri)) {
     throw new Error(
@@ -23,9 +24,9 @@ export function getMongoEnv() {
   }
 
   return { uri, dbName };
-}
+};
 
-export async function getMongoClient(): Promise<MongoClient> {
+export const getMongoClient = async (): Promise<MongoClient> => {
   const { uri } = getMongoEnv();
 
   if (!global.__mcbMongoClientPromise) {
@@ -34,4 +35,4 @@ export async function getMongoClient(): Promise<MongoClient> {
   }
 
   return global.__mcbMongoClientPromise;
-}
+};

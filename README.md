@@ -30,6 +30,8 @@ This repo treats YAML files under [content/shows](content/shows) as the authorin
 - Install deps: `npm install`
 - Dry run: `npm run seed:dry`
 - Seed (upsert + indexes): `npm run seed`
+- Reset + seed from scratch (clears votes/upvotes): `npm run seed:reset`
+- Reset only shows (keeps votes/upvotes): `npm run seed:reset-shows`
 
 More details: [docs/SEEDING.md](docs/SEEDING.md)
 
@@ -39,6 +41,7 @@ More details: [docs/SEEDING.md](docs/SEEDING.md)
 	- `MONGODB_URI=...`
 	- `MONGODB_DB=mcb_archives`
 - Seed from YAML: `npm run seed`
+- If you changed YAML and want a clean slate: `npm run seed:reset`
 - Run locally: `npm run dev` → open `http://localhost:3000`
 
 ## Cloudflare R2 notes

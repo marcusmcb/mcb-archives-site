@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import { getOrCreateDeviceId } from "../lib/device";
 
-export function UpvoteButton({ showId, initialUpvotes }: { showId: string; initialUpvotes: number }) {
+export const UpvoteButton = ({ showId, initialUpvotes }: { showId: string; initialUpvotes: number }) => {
   const [upvotes, setUpvotes] = useState(initialUpvotes);
   const [pending, setPending] = useState(false);
   const deviceId = useMemo(() => getOrCreateDeviceId(), []);
@@ -34,4 +34,4 @@ export function UpvoteButton({ showId, initialUpvotes }: { showId: string; initi
       <span>{pending ? "…" : upvotes}</span>
     </button>
   );
-}
+};
