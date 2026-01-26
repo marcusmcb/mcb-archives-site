@@ -58,6 +58,7 @@ const ensureIndexes = async (db: Db): Promise<void> => {
   await shows.createIndex({ id: 1 }, { unique: true });
   await shows.createIndex({ original_broadcast: -1 });
   await shows.createIndex({ genres: 1 });
+  await shows.createIndex({ decades: 1 });
   await shows.createIndex({ "songs.artist": 1 });
   await shows.createIndex({ "songs.title": 1 });
   await shows.createIndex({ searchText: "text" });

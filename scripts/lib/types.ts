@@ -9,6 +9,10 @@ export type ShowYaml = {
   image: string;
   audio_file_link: string;
   genres: string[];
+  /** Optional array of decade labels (e.g. ["2000s"]). Some files may use `decade` instead. */
+  decade?: string[];
+  /** Preferred field name for decade labels (e.g. ["2000s"]). */
+  decades?: string[];
   original_broadcast: string;
   original_broadcast_display?: string;
   station: string;
@@ -22,6 +26,7 @@ export type ShowDoc = {
   image: string;
   audio_file_link: string;
   genres: string[];
+  decades: string[];
   original_broadcast: Date;
   original_broadcast_display?: string;
   station: string;

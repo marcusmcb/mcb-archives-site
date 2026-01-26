@@ -23,6 +23,21 @@ const requireStringArray = (value: unknown, label: string): string[] => {
   return Array.from(new Set(result));
 };
 
+const optionalStringArray = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return [];
+  const result = value
+    .map((v) => (typeof v === "string" ? v.trim() : ""))
+    .filter((v) => v.length > 0)
+    .map((v) => v.toLowerCase());
+  return Array.from(new Set(result));
+};
+
+const decadeFromDate = (d: Date): string => {
+  const year = d.getUTCFullYear();
+  const decadeStart = Math.floor(year / 10) * 10;
+  return `${decadeStart}s`;
+};
+
 const requireIsoDate = (value: unknown, label: string): Date => {
   const raw = requireString(value, label);
   const date = new Date(raw);
@@ -37,10 +52,11 @@ const buildSearchText = (show: {
   title: string;
   station: string;
   genres: string[];
+  decades: string[];
   songs: { title: string; artist: string }[];
 }): string => {
   const songBits = show.songs.flatMap((s) => [s.title, s.artist]);
-  return [show.id, show.title, show.station, ...show.genres, ...songBits]
+  return [show.id, show.title, show.station, ...show.genres, ...show.decades, ...songBits]
     .join(" ")
     .toLowerCase();
 };
@@ -53,6 +69,11 @@ export const normalizeShow = (y: ShowYaml, sourcePath: string, now: Date): Omit<
   const genres = requireStringArray(y.genres, "genres");
   const original_broadcast = requireIsoDate(y.original_broadcast, "original_broadcast");
   const station = requireString(y.station, "station");
+
+  // Support both `decade` (legacy) and `decades` (preferred) in YAML.
+  const decadesRaw = (y as any).decades ?? (y as any).decade;
+  const decadesFromYaml = optionalStringArray(decadesRaw);
+  const decades = decadesFromYaml.length > 0 ? decadesFromYaml : [decadeFromDate(original_broadcast)];
 
   const songsRaw = y.songs;
   if (!Array.isArray(songsRaw)) throw new Error("Missing/invalid songs (expected array)");
@@ -75,7 +96,7 @@ export const normalizeShow = (y: ShowYaml, sourcePath: string, now: Date): Omit<
       ? y.original_broadcast_display.trim()
       : undefined;
 
-  const searchText = buildSearchText({ id, title, station, genres, songs });
+  const searchText = buildSearchText({ id, title, station, genres, decades, songs });
 
   return {
     id,
@@ -83,6 +104,7 @@ export const normalizeShow = (y: ShowYaml, sourcePath: string, now: Date): Omit<
     image,
     audio_file_link,
     genres,
+    decades,
     original_broadcast,
     original_broadcast_display,
     station,

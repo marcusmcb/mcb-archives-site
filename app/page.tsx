@@ -6,11 +6,12 @@ import { getShows } from "../lib/shows";
 const Home = async ({
   searchParams
 }: {
-  searchParams?: Promise<{ q?: string; genre?: string; page?: string }>;
+  searchParams?: Promise<{ q?: string; genre?: string; decade?: string; page?: string }>;
 }) => {
   const sp = (await searchParams) ?? {};
   const q = (sp.q ?? "").trim();
   const genre = (sp.genre ?? "").trim().toLowerCase();
+  const decade = (sp.decade ?? "").trim().toLowerCase();
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
   const limit = 6;
 
@@ -19,14 +20,14 @@ const Home = async ({
   let mongoError: string | null = null;
 
   try {
-    const result = await getShows({ q, genre, page, limit });
+    const result = await getShows({ q, genre, decade, page, limit });
     shows = result.shows;
     total = result.total;
   } catch (err: any) {
     mongoError = err?.message ? String(err.message) : "Unable to load shows from MongoDB.";
   }
   const totalPages = Math.max(1, Math.ceil(total / limit));
-  const noResults = !mongoError && total === 0 && (q.length > 0 || genre.length > 0);
+  const noResults = !mongoError && total === 0 && (q.length > 0 || genre.length > 0 || decade.length > 0);
 
   return (
     <div>
@@ -38,6 +39,7 @@ const Home = async ({
             defaultValue={q}
           />
           {genre ? <input type="hidden" name="genre" value={genre} /> : null}
+          {decade ? <input type="hidden" name="decade" value={decade} /> : null}
           <button type="submit">Search</button>
         </form>
 
@@ -48,12 +50,35 @@ const Home = async ({
 
       <div style={{ display: "flex", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
         {genre ? (
-          <Link className="pill" href={q ? `/?q=${encodeURIComponent(q)}` : "/"}>
+          <Link
+            className="pill"
+            href={`/?${new URLSearchParams({
+              ...(q ? { q } : {}),
+              ...(decade ? { decade } : {})
+            }).toString()}`}
+          >
             Clear genre: {genre}
           </Link>
         ) : null}
+        {decade ? (
+          <Link
+            className="pill"
+            href={`/?${new URLSearchParams({
+              ...(q ? { q } : {}),
+              ...(genre ? { genre } : {})
+            }).toString()}`}
+          >
+            Clear decade: {decade}
+          </Link>
+        ) : null}
         {q ? (
-          <Link className="pill" href={genre ? `/?genre=${encodeURIComponent(genre)}` : "/"}>
+          <Link
+            className="pill"
+            href={`/?${new URLSearchParams({
+              ...(genre ? { genre } : {}),
+              ...(decade ? { decade } : {})
+            }).toString()}`}
+          >
             Clear search
           </Link>
         ) : null}
@@ -64,7 +89,8 @@ const Home = async ({
           <div style={{ fontWeight: 700, marginBottom: 6 }}>No results</div>
           <div style={{ color: "var(--muted)", fontSize: 12 }}>
             Nothing matched{q ? ` “${q}”` : ""}
-            {genre ? ` in genre “${genre}”` : ""}. Try a different search or clear your filters.
+            {genre ? ` in genre “${genre}”` : ""}
+            {decade ? ` in decade “${decade}”` : ""}. Try a different search or clear your filters.
           </div>
         </div>
       ) : null}
@@ -95,6 +121,7 @@ const Home = async ({
               href={`/?${new URLSearchParams({
                 ...(q ? { q } : {}),
                 ...(genre ? { genre } : {}),
+                ...(decade ? { decade } : {}),
                 page: String(page - 1)
               }).toString()}`}
             >
@@ -107,6 +134,7 @@ const Home = async ({
               href={`/?${new URLSearchParams({
                 ...(q ? { q } : {}),
                 ...(genre ? { genre } : {}),
+                ...(decade ? { decade } : {}),
                 page: String(page + 1)
               }).toString()}`}
             >

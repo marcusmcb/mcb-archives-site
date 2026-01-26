@@ -10,6 +10,7 @@ export type ShowDb = {
   image: string;
   audio_file_link: string;
   genres: string[];
+  decades: string[];
   original_broadcast: Date;
   original_broadcast_display?: string;
   station: string;
@@ -61,14 +62,38 @@ export const getGenres = async (): Promise<string[]> => {
     .sort((a, b) => a.localeCompare(b));
 };
 
+const decadeSortKey = (d: string): number => {
+  // Expected like "2000s"; sort by numeric prefix when possible.
+  const m = /^\s*(\d{4})s\s*$/.exec(d);
+  if (!m) return Number.POSITIVE_INFINITY;
+  const n = Number.parseInt(m[1], 10);
+  return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
+};
+
+export const getDecades = async (): Promise<string[]> => {
+  const col = await showsCollection();
+  const decades = await col.distinct("decades");
+  return decades
+    .map((d) => String(d).toLowerCase())
+    .filter(Boolean)
+    .sort((a, b) => {
+      const ak = decadeSortKey(a);
+      const bk = decadeSortKey(b);
+      if (ak !== bk) return ak - bk;
+      return a.localeCompare(b);
+    });
+};
+
 export const getShows = async ({
   q,
   genre,
+  decade,
   page,
   limit
 }: {
   q: string;
   genre: string;
+  decade: string;
   page: number;
   limit: number;
 }): Promise<{ shows: ShowCard[]; total: number }> => {
@@ -76,6 +101,7 @@ export const getShows = async ({
 
   const filter: Record<string, unknown> = {};
   if (genre) filter.genres = genre;
+  if (decade) filter.decades = decade;
   if (q) filter.$text = { $search: q };
 
   const cursor = col.find(filter, q ? { projection: { score: { $meta: "textScore" } } } : undefined);
