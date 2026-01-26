@@ -6,6 +6,7 @@ genres:
   - "retro"
 original_broadcast: "2016-11-28"
 original_broadcast_display: "November, 2016"
+decade: ["1980s", "1990s"]
 station: "ClubJam Retro"
 duration_seconds: 1439
 songs:
