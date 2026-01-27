@@ -52,8 +52,15 @@ a { color: inherit; text-decoration: none; }
 
 .brand {
   font-weight: 800;
+  font-size: 1.2rem;
   letter-spacing: 0.3px;
   margin-bottom: 14px;
+}
+
+.brandTitle {
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: 0.3px;
 }
 
 .nav {
@@ -165,6 +172,38 @@ a { color: inherit; text-decoration: none; }
 
 .main {
   padding: 18px 18px 48px;
+}
+
+.aboutWrap {
+  /* Allow text to flow under the image after it ends */
+  overflow: hidden;
+}
+
+.aboutImage {
+  float: left;
+  width: min(360px, 42vw);
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  margin: 6px 22px 16px 0;
+}
+
+.aboutHeader {
+  margin: 6px 0 16px;
+  padding-top: 4px;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+}
+
+.aboutText {
+  color: rgba(232, 236, 244, 0.92);
+  line-height: 1.6;
+  max-width: 70ch;
+}
+
+.aboutText p {
+  margin: 0 0 14px;
 }
 
 .topbar {
@@ -470,4 +509,10 @@ a { color: inherit; text-decoration: none; }
   .playerControls { width: 100%; justify-content: space-between; }
   .playerTimeline { grid-template-columns: 44px 1fr 44px; width: 100%; }
   .playerTimeline input[type="range"] { width: 100%; }
+
+  .aboutImage {
+    float: none;
+    width: 100%;
+    margin: 0 0 14px 0;
+  }
 }

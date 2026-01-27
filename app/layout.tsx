@@ -26,7 +26,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
         <AudioPlayerProvider>
           <div className="mobileHeader">
-            <div style={{ fontWeight: 800 }}>MCB Archives</div>
+            <div className="brandTitle">MCB Archives</div>
             <Suspense fallback={null}>
               <MobileMenu genres={genres} decades={decades} stations={stations} />
             </Suspense>

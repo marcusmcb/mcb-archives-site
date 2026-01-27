@@ -98,6 +98,7 @@ export const Sidebar = ({ genres, decades, stations }: Props) => {
       <nav className="nav">
         <Link href="/">Home</Link>
         <Link href="/favorites">Favorites</Link>
+        <Link href="/about">About</Link>
       </nav>
 
       <div className="filtersScroll">
