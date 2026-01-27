@@ -138,3 +138,10 @@ export const getShowsByIds = async (ids: string[]): Promise<ShowCard[]> => {
     .toArray();
   return docs.map(toCard);
 };
+
+export const getRandomShow = async (): Promise<ShowCard | null> => {
+  const col = await showsCollection();
+  const docs = (await col.aggregate([{ $sample: { size: 1 } }]).toArray()) as unknown as ShowDb[];
+  if (docs.length === 0) return null;
+  return toCard(docs[0]);
+};

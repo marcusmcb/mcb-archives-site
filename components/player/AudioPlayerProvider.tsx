@@ -14,6 +14,7 @@ type AudioPlayerState = {
   isPlaying: boolean;
   duration: number;
   currentTime: number;
+  loadShow: (show: PlayerShow) => void;
   playShow: (show: PlayerShow) => void;
   togglePlay: () => void;
   pause: () => void;
@@ -62,7 +63,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  const playShow = (show: PlayerShow) => {
+  const loadShow = (show: PlayerShow) => {
     const audio = audioRef.current;
     if (!audio) return;
 
@@ -75,7 +76,13 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
       audio.currentTime = 0;
       setCurrentTime(0);
     }
+  };
 
+  const playShow = (show: PlayerShow) => {
+    loadShow(show);
+
+    const audio = audioRef.current;
+    if (!audio) return;
     void audio.play().catch(() => {
       // Autoplay may be blocked; user can press play.
     });
@@ -107,7 +114,7 @@ export const AudioPlayerProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const value = useMemo<AudioPlayerState>(
-    () => ({ current, isPlaying, duration, currentTime, playShow, togglePlay, pause, seek }),
+    () => ({ current, isPlaying, duration, currentTime, loadShow, playShow, togglePlay, pause, seek }),
     [current, isPlaying, duration, currentTime]
   );
 

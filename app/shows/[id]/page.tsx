@@ -5,6 +5,7 @@ import { FavoriteButton } from "../../../components/FavoriteButton";
 import { UpvoteButton } from "../../../components/UpvoteButton";
 import { AudioPlayerBar } from "../../../components/player/AudioPlayerBar";
 import { ListenNowButton } from "../../../components/player/ListenNowButton";
+import { SearchBar } from "../../../components/SearchBar";
 import { getShowById } from "../../../lib/shows";
 
 const ShowDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -19,16 +20,7 @@ const ShowDetailPage = async ({ params }: { params: Promise<{ id: string }> }) =
 
   return (
     <div>
-      <div className="topbar">
-        <form className="search" action="/" method="get">
-          <input name="q" placeholder="Search shows by genre, artist, or song title…" />
-          <button type="submit">Search</button>
-        </form>
-
-        <Link className="pill" href="/">
-          Back
-        </Link>
-      </div>
+      <SearchBar rightSlot={<Link className="pill" href="/">Back</Link>} />
 
       <AudioPlayerBar />
 

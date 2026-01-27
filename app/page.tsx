@@ -1,8 +1,10 @@
 import Link from "next/link";
 
 import { AudioPlayerBar } from "../components/player/AudioPlayerBar";
+import { PlayerAutoLoad } from "../components/player/PlayerAutoLoad";
+import { SearchBar } from "../components/SearchBar";
 import { ShowCard } from "../components/ShowCard";
-import { getShows } from "../lib/shows";
+import { getRandomShow, getShows } from "../lib/shows";
 
 const Home = async ({
   searchParams
@@ -19,11 +21,17 @@ const Home = async ({
   let shows: Awaited<ReturnType<typeof getShows>>["shows"] = [];
   let total = 0;
   let mongoError: string | null = null;
+  let randomShow: Awaited<ReturnType<typeof getRandomShow>> = null;
 
   try {
     const result = await getShows({ q, genre, decade, page, limit });
     shows = result.shows;
     total = result.total;
+
+    // Only pick a random default when landing normally (no filters/search).
+    if (!q && !genre && !decade) {
+      randomShow = await getRandomShow().catch(() => null);
+    }
   } catch (err: any) {
     mongoError = err?.message ? String(err.message) : "Unable to load shows from MongoDB.";
   }
@@ -32,22 +40,16 @@ const Home = async ({
 
   return (
     <div>
-      <div className="topbar">
-        <form className="search" action="/" method="get">
-          <input
-            name="q"
-            placeholder="Search shows by genre, artist, or song title…"
-            defaultValue={q}
-          />
-          {genre ? <input type="hidden" name="genre" value={genre} /> : null}
-          {decade ? <input type="hidden" name="decade" value={decade} /> : null}
-          <button type="submit">Search</button>
-        </form>
-
-        <div style={{ color: "var(--muted)", fontSize: 12 }}>
-          {total} show{total === 1 ? "" : "s"}
-        </div>
-      </div>
+      <SearchBar
+        initialQuery={q}
+        genre={genre}
+        decade={decade}
+        rightSlot={
+          <div style={{ color: "var(--muted)", fontSize: 12 }}>
+            {total} show{total === 1 ? "" : "s"}
+          </div>
+        }
+      />
 
       <div style={{ display: "flex", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
         {genre ? (
@@ -84,6 +86,17 @@ const Home = async ({
           </Link>
         ) : null}
       </div>
+
+      {!mongoError && randomShow ? (
+        <PlayerAutoLoad
+          show={{
+            id: randomShow.id,
+            title: randomShow.title,
+            audioUrl: randomShow.audio_file_link,
+            image: randomShow.image
+          }}
+        />
+      ) : null}
 
       <AudioPlayerBar />
 
