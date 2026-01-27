@@ -6,8 +6,16 @@ declare global {
 }
 
 export const getMongoEnv = () => {
-  const uri = process.env.MONGODB_URI;
-  const dbName = process.env.MONGODB_DB;
+  const stripWrappingQuotes = (v: string) => {
+    const s = v.trim();
+    if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+      return s.slice(1, -1).trim();
+    }
+    return s;
+  };
+
+  const uri = process.env.MONGODB_URI ? stripWrappingQuotes(process.env.MONGODB_URI) : undefined;
+  const dbName = process.env.MONGODB_DB ? stripWrappingQuotes(process.env.MONGODB_DB) : undefined;
 
   const looksLikePlaceholder = (value: string) =>
     value.includes("<user>") || value.includes("<pass>") || value.includes("<cluster>") || value.includes("<db>");
