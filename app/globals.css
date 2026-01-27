@@ -255,6 +255,94 @@ a { color: inherit; text-decoration: none; }
 
 .actionBtn:hover { border-color: rgba(110, 231, 255, 0.35); }
 
+.listenNowPrimary {
+  border-color: rgba(110, 231, 255, 0.45);
+  background: linear-gradient(180deg, rgba(110, 231, 255, 0.16), rgba(167, 139, 250, 0.10));
+  box-shadow: 0 0 0 1px rgba(110, 231, 255, 0.12), 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.listenNowPrimary:hover {
+  border-color: rgba(110, 231, 255, 0.65);
+}
+
+.playerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(15, 22, 38, 0.60);
+  margin-bottom: 14px;
+}
+
+.playerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.playerArt {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
+.playerArtPlaceholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  flex: 0 0 auto;
+}
+
+.playerMeta {
+  min-width: 0;
+}
+
+.playerTitle {
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playerSub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.playerControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.playerTimeline {
+  display: grid;
+  grid-template-columns: 44px 220px 44px;
+  align-items: center;
+  gap: 10px;
+}
+
+.playerTimeline input[type="range"] {
+  width: 220px;
+}
+
+.playerTime {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
 .mobileHeader {
   display: none;
   padding: 12px 16px;
@@ -319,4 +407,8 @@ a { color: inherit; text-decoration: none; }
   .sidebar { display: none; }
   .mobileHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .grid { grid-template-columns: 1fr; }
+  .playerBar { flex-direction: column; align-items: stretch; }
+  .playerControls { width: 100%; justify-content: space-between; }
+  .playerTimeline { grid-template-columns: 44px 1fr 44px; width: 100%; }
+  .playerTimeline input[type="range"] { width: 100%; }
 }

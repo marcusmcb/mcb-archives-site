@@ -27,7 +27,9 @@ export type ShowCard = {
   id: string;
   title: string;
   image: string;
+  audio_file_link: string;
   genres: string[];
+  decades?: string[];
   original_broadcast: string;
   original_broadcast_display?: string;
   station: string;
@@ -45,7 +47,9 @@ const toCard = (s: ShowDb): ShowCard => {
     id: s.id,
     title: s.title,
     image: s.image,
+    audio_file_link: s.audio_file_link,
     genres: s.genres,
+    decades: s.decades,
     original_broadcast: s.original_broadcast.toISOString(),
     original_broadcast_display: s.original_broadcast_display,
     station: s.station,

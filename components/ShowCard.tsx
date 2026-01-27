@@ -1,11 +1,13 @@
 import Link from "next/link";
 
 import { FavoriteButton } from "./FavoriteButton";
+import { ListenNowButton } from "./player/ListenNowButton";
 
 export type ShowCardModel = {
   id: string;
   title: string;
   image: string;
+  audio_file_link: string;
   genres: string[];
   original_broadcast: string; // ISO string from API
   original_broadcast_display?: string;
@@ -38,13 +40,34 @@ export const ShowCard = ({ show }: { show: ShowCardModel }) => {
           <FavoriteButton showId={show.id} compact />
         </div>
 
+        <div style={{ display: "flex", gap: 10, marginTop: 12, alignItems: "center" }}>
+          <ListenNowButton show={{ id: show.id, title: show.title, audio_file_link: show.audio_file_link, image: show.image }} compact />
+          <Link className="pill" href={`/shows/${encodeURIComponent(show.id)}`}>
+            Details
+          </Link>
+        </div>
+
         <div className="cardMeta" style={{ marginTop: 10 }}>
           {show.genres.slice(0, 3).map((g) => (
             <span key={g} className="pill">
               {g}
             </span>
           ))}
-          <span className="pill">👍 {show.upvotes}</span>
+          <span className="pill" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <span aria-hidden="true" style={{ display: "inline-flex", alignItems: "center" }}>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 19V5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path
+                  d="M6.5 10.5 12 5l5.5 5.5"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span>{show.upvotes}</span>
+          </span>
         </div>
       </div>
     </div>

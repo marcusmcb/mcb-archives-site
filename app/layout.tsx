@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
+import { AudioPlayerProvider } from "../components/player/AudioPlayerProvider";
 import { MobileMenu } from "../components/MobileMenu";
 import { Sidebar } from "../components/Sidebar";
 import { getDecades, getGenres } from "../lib/shows";
@@ -21,19 +22,21 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en">
       <body className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-        <div className="mobileHeader">
-          <div style={{ fontWeight: 800 }}>MCB Archives</div>
-          <MobileMenu genres={genres} decades={decades} />
-        </div>
+        <AudioPlayerProvider>
+          <div className="mobileHeader">
+            <div style={{ fontWeight: 800 }}>MCB Archives</div>
+            <MobileMenu genres={genres} decades={decades} />
+          </div>
 
-        <div className="container">
-          <aside className="sidebar">
-            <div className="brand">MCB Archives</div>
-            <Sidebar genres={genres} decades={decades} />
-          </aside>
+          <div className="container">
+            <aside className="sidebar">
+              <div className="brand">MCB Archives</div>
+              <Sidebar genres={genres} decades={decades} />
+            </aside>
 
-          <main className="main">{children}</main>
-        </div>
+            <main className="main">{children}</main>
+          </div>
+        </AudioPlayerProvider>
       </body>
     </html>
   );

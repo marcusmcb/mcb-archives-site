@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import Link from "next/link";
 
+import { AudioPlayerBar } from "../../components/player/AudioPlayerBar";
 import { ShowCard, type ShowCardModel } from "../../components/ShowCard";
 import { getFavoriteIds, subscribeFavorites } from "../../lib/favorites";
 
@@ -53,6 +54,8 @@ const FavoritesPage = () => {
           Back to all shows
         </Link>
       </div>
+
+      <AudioPlayerBar />
 
       {loading ? <div style={{ color: "var(--muted)" }}>Loading…</div> : null}
 

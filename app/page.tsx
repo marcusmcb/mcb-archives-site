@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AudioPlayerBar } from "../components/player/AudioPlayerBar";
 import { ShowCard } from "../components/ShowCard";
 import { getShows } from "../lib/shows";
 
@@ -83,6 +84,8 @@ const Home = async ({
           </Link>
         ) : null}
       </div>
+
+      <AudioPlayerBar />
 
       {noResults ? (
         <div className="card" style={{ padding: 12, marginBottom: 14 }}>

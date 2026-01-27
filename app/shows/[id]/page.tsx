@@ -1,7 +1,10 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { FavoriteButton } from "../../../components/FavoriteButton";
 import { UpvoteButton } from "../../../components/UpvoteButton";
+import { AudioPlayerBar } from "../../../components/player/AudioPlayerBar";
+import { ListenNowButton } from "../../../components/player/ListenNowButton";
 import { getShowById } from "../../../lib/shows";
 
 const ShowDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
@@ -16,6 +19,19 @@ const ShowDetailPage = async ({ params }: { params: Promise<{ id: string }> }) =
 
   return (
     <div>
+      <div className="topbar">
+        <form className="search" action="/" method="get">
+          <input name="q" placeholder="Search shows by genre, artist, or song title…" />
+          <button type="submit">Search</button>
+        </form>
+
+        <Link className="pill" href="/">
+          Back
+        </Link>
+      </div>
+
+      <AudioPlayerBar />
+
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "start" }}>
         <div>
           <h1 style={{ margin: 0 }}>{show.title}</h1>
@@ -43,8 +59,7 @@ const ShowDetailPage = async ({ params }: { params: Promise<{ id: string }> }) =
 
         <div>
           <div className="card" style={{ padding: 12 }}>
-            <div style={{ fontWeight: 700, marginBottom: 10 }}>Listen</div>
-            <audio controls preload="metadata" style={{ width: "100%" }} src={show.audio_file_link} />
+            <ListenNowButton show={{ id: show.id, title: show.title, audio_file_link: show.audio_file_link, image: show.image }} />
           </div>
 
           <div style={{ height: 12 }} />
