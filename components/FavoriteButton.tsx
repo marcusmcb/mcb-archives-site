@@ -13,7 +13,7 @@ export const FavoriteButton = ({ showId, compact }: { showId: string; compact?: 
 
   return (
     <button
-      className="actionBtn"
+      className={`actionBtn favoriteBtn${fav ? " isFavorite" : ""}`}
       type="button"
       onClick={() => {
         toggleFavorite(showId);
@@ -23,7 +23,9 @@ export const FavoriteButton = ({ showId, compact }: { showId: string; compact?: 
       title={fav ? "Unfavorite" : "Favorite"}
       style={compact ? { padding: "8px 10px" } : undefined}
     >
-      <span>{fav ? "★" : "☆"}</span>
+      <span className="favoriteStar" aria-hidden="true">
+        {fav ? "★" : "☆"}
+      </span>
       {!compact ? <span>{fav ? "Favorited" : "Favorite"}</span> : null}
     </button>
   );

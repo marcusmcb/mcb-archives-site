@@ -88,16 +88,27 @@ export const getDecades = async (): Promise<string[]> => {
     });
 };
 
+export const getStations = async (): Promise<string[]> => {
+  const col = await showsCollection();
+  const stations = await col.distinct("station");
+  return stations
+    .map((s) => String(s).trim())
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+};
+
 export const getShows = async ({
   q,
   genre,
   decade,
+  station,
   page,
   limit
 }: {
   q: string;
   genre: string;
   decade: string;
+  station: string;
   page: number;
   limit: number;
 }): Promise<{ shows: ShowCard[]; total: number }> => {
@@ -106,6 +117,7 @@ export const getShows = async ({
   const filter: Record<string, unknown> = {};
   if (genre) filter.genres = genre;
   if (decade) filter.decades = decade;
+  if (station) filter.station = station;
   if (q) filter.$text = { $search: q };
 
   const cursor = col.find(filter, q ? { projection: { score: { $meta: "textScore" } } } : undefined);

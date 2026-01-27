@@ -9,12 +9,13 @@ import { getRandomShow, getShows } from "../lib/shows";
 const Home = async ({
   searchParams
 }: {
-  searchParams?: Promise<{ q?: string; genre?: string; decade?: string; page?: string }>;
+  searchParams?: Promise<{ q?: string; genre?: string; decade?: string; station?: string; page?: string }>;
 }) => {
   const sp = (await searchParams) ?? {};
   const q = (sp.q ?? "").trim();
   const genre = (sp.genre ?? "").trim().toLowerCase();
   const decade = (sp.decade ?? "").trim().toLowerCase();
+  const station = (sp.station ?? "").trim();
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
   const limit = 6;
 
@@ -24,19 +25,19 @@ const Home = async ({
   let randomShow: Awaited<ReturnType<typeof getRandomShow>> = null;
 
   try {
-    const result = await getShows({ q, genre, decade, page, limit });
+    const result = await getShows({ q, genre, decade, station, page, limit });
     shows = result.shows;
     total = result.total;
 
     // Only pick a random default when landing normally (no filters/search).
-    if (!q && !genre && !decade) {
+    if (!q && !genre && !decade && !station) {
       randomShow = await getRandomShow().catch(() => null);
     }
   } catch (err: any) {
     mongoError = err?.message ? String(err.message) : "Unable to load shows from MongoDB.";
   }
   const totalPages = Math.max(1, Math.ceil(total / limit));
-  const noResults = !mongoError && total === 0 && (q.length > 0 || genre.length > 0 || decade.length > 0);
+  const noResults = !mongoError && total === 0 && (q.length > 0 || genre.length > 0 || decade.length > 0 || station.length > 0);
 
   return (
     <div>
@@ -44,6 +45,7 @@ const Home = async ({
         initialQuery={q}
         genre={genre}
         decade={decade}
+        station={station}
         rightSlot={
           <div style={{ color: "var(--muted)", fontSize: 12 }}>
             {total} show{total === 1 ? "" : "s"}
@@ -57,7 +59,8 @@ const Home = async ({
             className="pill"
             href={`/?${new URLSearchParams({
               ...(q ? { q } : {}),
-              ...(decade ? { decade } : {})
+              ...(decade ? { decade } : {}),
+              ...(station ? { station } : {})
             }).toString()}`}
           >
             Clear genre: {genre}
@@ -68,10 +71,23 @@ const Home = async ({
             className="pill"
             href={`/?${new URLSearchParams({
               ...(q ? { q } : {}),
-              ...(genre ? { genre } : {})
+              ...(genre ? { genre } : {}),
+              ...(station ? { station } : {})
             }).toString()}`}
           >
             Clear decade: {decade}
+          </Link>
+        ) : null}
+        {station ? (
+          <Link
+            className="pill"
+            href={`/?${new URLSearchParams({
+              ...(q ? { q } : {}),
+              ...(genre ? { genre } : {}),
+              ...(decade ? { decade } : {})
+            }).toString()}`}
+          >
+            Clear station: {station}
           </Link>
         ) : null}
         {q ? (
@@ -79,7 +95,8 @@ const Home = async ({
             className="pill"
             href={`/?${new URLSearchParams({
               ...(genre ? { genre } : {}),
-              ...(decade ? { decade } : {})
+              ...(decade ? { decade } : {}),
+              ...(station ? { station } : {})
             }).toString()}`}
           >
             Clear search
@@ -106,7 +123,8 @@ const Home = async ({
           <div style={{ color: "var(--muted)", fontSize: 12 }}>
             Nothing matched{q ? ` “${q}”` : ""}
             {genre ? ` in genre “${genre}”` : ""}
-            {decade ? ` in decade “${decade}”` : ""}. Try a different search or clear your filters.
+            {decade ? ` in decade “${decade}”` : ""}
+            {station ? ` on station “${station}”` : ""}. Try a different search or clear your filters.
           </div>
         </div>
       ) : null}
@@ -138,6 +156,7 @@ const Home = async ({
                 ...(q ? { q } : {}),
                 ...(genre ? { genre } : {}),
                 ...(decade ? { decade } : {}),
+                ...(station ? { station } : {}),
                 page: String(page - 1)
               }).toString()}`}
             >
@@ -151,6 +170,7 @@ const Home = async ({
                 ...(q ? { q } : {}),
                 ...(genre ? { genre } : {}),
                 ...(decade ? { decade } : {}),
+                ...(station ? { station } : {}),
                 page: String(page + 1)
               }).toString()}`}
             >

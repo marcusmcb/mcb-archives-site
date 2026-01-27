@@ -8,7 +8,7 @@ import { GeistSans } from "geist/font/sans";
 import { AudioPlayerProvider } from "../components/player/AudioPlayerProvider";
 import { MobileMenu } from "../components/MobileMenu";
 import { Sidebar } from "../components/Sidebar";
-import { getDecades, getGenres } from "../lib/shows";
+import { getDecades, getGenres, getStations } from "../lib/shows";
 
 export const metadata = {
   title: "MCB Archives",
@@ -18,6 +18,7 @@ export const metadata = {
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const genres = await getGenres().catch(() => [] as string[]);
   const decades = await getDecades().catch(() => [] as string[]);
+  const stations = await getStations().catch(() => [] as string[]);
 
   return (
     <html lang="en">
@@ -25,13 +26,13 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
         <AudioPlayerProvider>
           <div className="mobileHeader">
             <div style={{ fontWeight: 800 }}>MCB Archives</div>
-            <MobileMenu genres={genres} decades={decades} />
+            <MobileMenu genres={genres} decades={decades} stations={stations} />
           </div>
 
           <div className="container">
             <aside className="sidebar">
               <div className="brand">MCB Archives</div>
-              <Sidebar genres={genres} decades={decades} />
+              <Sidebar genres={genres} decades={decades} stations={stations} />
             </aside>
 
             <main className="main">{children}</main>

@@ -8,10 +8,11 @@ type Props = {
   initialQuery?: string;
   genre?: string;
   decade?: string;
+  station?: string;
   rightSlot?: React.ReactNode;
 };
 
-export const SearchBar = ({ initialQuery = "", genre = "", decade = "", rightSlot }: Props) => {
+export const SearchBar = ({ initialQuery = "", genre = "", decade = "", station = "", rightSlot }: Props) => {
   const router = useRouter();
   const [q, setQ] = useState(initialQuery);
 
@@ -20,9 +21,10 @@ export const SearchBar = ({ initialQuery = "", genre = "", decade = "", rightSlo
     if (q.trim()) params.set("q", q.trim());
     if (genre) params.set("genre", genre);
     if (decade) params.set("decade", decade);
+    if (station) params.set("station", station);
     const qs = params.toString();
     return qs ? `/?${qs}` : "/";
-  }, [q, genre, decade]);
+  }, [q, genre, decade, station]);
 
   return (
     <div className="topbar">

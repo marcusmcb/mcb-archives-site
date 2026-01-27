@@ -83,10 +83,45 @@ a { color: inherit; text-decoration: none; }
   margin: 12px 0 10px;
 }
 
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 12px 0 10px;
+}
+
+.sectionToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(15, 22, 38, 0.6);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.sectionToggle:hover {
+  color: var(--text);
+  border-color: rgba(110, 231, 255, 0.35);
+}
+
 .filtersScroll {
   max-height: calc(100vh - 220px);
   overflow: auto;
   padding-right: 2px;
+
+  /* Hide scrollbar but keep scrollability */
+  -ms-overflow-style: none; /* IE/Edge legacy */
+  scrollbar-width: none; /* Firefox */
+}
+
+.filtersScroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .genreList {
@@ -255,6 +290,21 @@ a { color: inherit; text-decoration: none; }
 
 .actionBtn:hover { border-color: rgba(110, 231, 255, 0.35); }
 
+.favoriteBtn.isFavorite {
+  color: #facc15; /* amber */
+  border-color: rgba(250, 204, 21, 0.45);
+  background: rgba(250, 204, 21, 0.10);
+}
+
+.favoriteBtn.isFavorite:hover {
+  border-color: rgba(250, 204, 21, 0.7);
+}
+
+.favoriteStar {
+  font-size: 14px;
+  line-height: 1;
+}
+
 .listenNowPrimary {
   border-color: rgba(110, 231, 255, 0.45);
   background: linear-gradient(180deg, rgba(110, 231, 255, 0.16), rgba(167, 139, 250, 0.10));
@@ -387,6 +437,15 @@ a { color: inherit; text-decoration: none; }
   border-left: 1px solid var(--border);
   backdrop-filter: blur(10px);
   overflow: auto;
+
+  /* Hide scrollbar but keep scrollability */
+  -ms-overflow-style: none; /* IE/Edge legacy */
+  scrollbar-width: none; /* Firefox */
+}
+
+.drawerPanel::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .drawerHeader {

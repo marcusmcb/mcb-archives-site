@@ -7,9 +7,10 @@ import { Sidebar } from "./Sidebar";
 type Props = {
   genres: string[];
   decades: string[];
+  stations: string[];
 };
 
-export const MobileMenu = ({ genres, decades }: Props) => {
+export const MobileMenu = ({ genres, decades, stations }: Props) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ export const MobileMenu = ({ genres, decades }: Props) => {
                 </svg>
               </button>
             </div>
-            <Sidebar genres={genres} decades={decades} />
+            <Sidebar genres={genres} decades={decades} stations={stations} />
           </div>
         </div>
       ) : null}
