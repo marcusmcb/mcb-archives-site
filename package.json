@@ -11,12 +11,15 @@
     "seed:reset": "tsx scripts/seed.ts --reset",
     "seed:reset-shows": "tsx scripts/seed.ts --reset-shows",
     "lint": "next lint",
-    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.scripts.json"
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.scripts.json",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
-    "glob": "^11.0.0",
     "geist": "^1.4.2",
+    "glob": "^11.0.0",
     "js-yaml": "^4.1.0",
     "mongodb": "^6.12.0",
     "next": "^15.1.6",
@@ -24,6 +27,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.8",
