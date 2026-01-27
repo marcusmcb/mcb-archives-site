@@ -1,6 +1,7 @@
 import "./globals.css";
 
 import type { ReactNode } from "react";
+import { Suspense } from "react";
 
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
@@ -26,13 +27,17 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
         <AudioPlayerProvider>
           <div className="mobileHeader">
             <div style={{ fontWeight: 800 }}>MCB Archives</div>
-            <MobileMenu genres={genres} decades={decades} stations={stations} />
+            <Suspense fallback={null}>
+              <MobileMenu genres={genres} decades={decades} stations={stations} />
+            </Suspense>
           </div>
 
           <div className="container">
             <aside className="sidebar">
               <div className="brand">MCB Archives</div>
-              <Sidebar genres={genres} decades={decades} stations={stations} />
+              <Suspense fallback={null}>
+                <Sidebar genres={genres} decades={decades} stations={stations} />
+              </Suspense>
             </aside>
 
             <main className="main">{children}</main>
