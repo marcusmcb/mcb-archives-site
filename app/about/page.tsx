@@ -27,11 +27,11 @@ const AboutPage = () => {
             alt="djmarcusmcb"
           />
 
-          <h1 className="aboutHeader">Welcome to the Archive!</h1>
+          <h1 className="aboutHeader">About this mixshow archive...</h1>
 
           <div className="aboutText">
             <p>
-              From 1998 to 2022, I had the priviledge and pleasure as a DJ to rock the airwaves every weekend on radio
+              From 1998 to 2022, I had the privilege and pleasure as a DJ to rock the airwaves every weekend on radio
               stations all across the country.
             </p>
 
