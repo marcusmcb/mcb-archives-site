@@ -7,7 +7,7 @@ const AboutPage = () => {
 
       <div className="aboutWrap">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="aboutImage" src="/images/djmarcusmcb.png" alt="djmarcusmcb" />
+        <img className="aboutImage" src="https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/images/djmarcusmcb.png" alt="djmarcusmcb" />
 
         <h1 className="aboutHeader">Welcome to the Archive!</h1>
 

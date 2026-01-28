@@ -177,6 +177,8 @@ a { color: inherit; text-decoration: none; }
 .aboutWrap {
   /* Allow text to flow under the image after it ends */
   overflow: hidden;
+  width: min(100%, 980px);
+  margin: 0 auto;
 }
 
 .aboutImage {
