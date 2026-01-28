@@ -174,11 +174,16 @@ a { color: inherit; text-decoration: none; }
   padding: 18px 18px 48px;
 }
 
+.aboutPageGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  align-items: start;
+}
+
 .aboutWrap {
   /* Allow text to flow under the image after it ends */
   overflow: hidden;
-  width: min(100%, 980px);
-  margin: 0 auto;
 }
 
 .aboutImage {
@@ -201,11 +206,107 @@ a { color: inherit; text-decoration: none; }
 .aboutText {
   color: rgba(232, 236, 244, 0.92);
   line-height: 1.6;
-  max-width: 70ch;
 }
 
 .aboutText p {
   margin: 0 0 14px;
+}
+
+.aboutTimeline {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(15, 22, 38, 0.55);
+}
+
+.aboutTimelineHeader {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  margin: 22px 0;
+}
+
+.aboutTimelineList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aboutTimelineLink {
+  display: block;
+  padding: 8px 0;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.aboutTimelineLink:visited {
+  color: inherit;
+}
+
+.aboutTimelineLink:hover {
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.aboutTimelineTitle {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  line-height: 1.15;
+}
+
+.aboutTimelineDetail {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.2;
+
+}
+
+.aboutSocialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.aboutSocialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.aboutSocialLink:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.aboutSocialLink:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.28);
+  outline-offset: 2px;
+}
+
+
+@media (max-width: 1000px) {
+  .aboutPageGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .topbar {
@@ -511,6 +612,10 @@ a { color: inherit; text-decoration: none; }
   .playerControls { width: 100%; justify-content: space-between; }
   .playerTimeline { grid-template-columns: 44px 1fr 44px; width: 100%; }
   .playerTimeline input[type="range"] { width: 100%; }
+
+  .aboutPageGrid {
+    grid-template-columns: 1fr;
+  }
 
   .aboutImage {
     float: none;

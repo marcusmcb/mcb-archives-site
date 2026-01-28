@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { AudioPlayerBar } from "../components/player/AudioPlayerBar";
@@ -5,6 +6,20 @@ import { PlayerAutoLoad } from "../components/player/PlayerAutoLoad";
 import { SearchBar } from "../components/SearchBar";
 import { ShowCard } from "../components/ShowCard";
 import { getRandomShow, getShows } from "../lib/shows";
+
+export const metadata: Metadata = {
+  title: "MCB Archives",
+  description: "Welcome to the MCB mixshow archive!",
+  openGraph: {
+    title: "MCB Archives",
+    description: "Welcome to the MCB mixshow archive!"
+  },
+  twitter: {
+    card: "summary",
+    title: "MCB Archives",
+    description: "Welcome to the MCB mixshow archive!"
+  }
+};
 
 const Home = async ({
   searchParams
