@@ -32,7 +32,7 @@ const Home = async ({
   const decade = (sp.decade ?? "").trim().toLowerCase();
   const station = (sp.station ?? "").trim();
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
-  const limit = 6;
+  const limit = 12;
 
   let shows: Awaited<ReturnType<typeof getShows>>["shows"] = [];
   let total = 0;

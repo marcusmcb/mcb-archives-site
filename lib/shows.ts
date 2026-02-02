@@ -110,9 +110,13 @@ export const getShows = async ({
   decade: string;
   station: string;
   page: number;
-  limit: number;
+  limit: number | "all";
 }): Promise<{ shows: ShowCard[]; total: number }> => {
   const col = await showsCollection();
+
+  const isAll = limit === "all";
+  const safeLimit = isAll ? 0 : Math.max(1, Math.floor(limit));
+  const safePage = isAll ? 1 : Math.max(1, Math.floor(page));
 
   const filter: Record<string, unknown> = {};
   if (genre) filter.genres = genre;
@@ -129,10 +133,7 @@ export const getShows = async ({
 
   const total = await col.countDocuments(filter);
 
-  const docs = await cursor
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .toArray();
+  const docs = await (isAll ? cursor : cursor.skip((safePage - 1) * safeLimit).limit(safeLimit)).toArray();
 
   return { shows: docs.map(toCard), total };
 };
