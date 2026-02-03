@@ -1,0 +1,29 @@
+id: "clubjam-classic-hip-hop-07-2018-01"
+title: "ClubJam Classic Hip Hop, July 2018"
+image: "https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/images/clubjam/clubjam_classic_hip_hop_gpt_logo.png"
+audio_file_link: "https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/audio/clubjam/classic-hip-hop/clubjam-classic-hip-hop-07-2018-01.mp3"
+genres:
+  - "hip hop"
+  - "r&b"
+  - "old school"
+original_broadcast: "2018-07-01"
+original_broadcast_display: "July, 2018"
+decade: ["2000s", "1990s"]
+station: "ClubJam Classic Hip Hop"
+duration_seconds: 1455
+songs:
+  - title: "Beautiful"
+    artist: "Snoop Dogg (feat Pharrell Williams)"
+  - title: "Naughty Girl"
+    artist: "Beyonce"
+  - title: "County Line"
+    artist: "Coolio"
+  - title: "Rump Shaker" 
+    artist: "Wreckx-N-Effect"
+  - title: "Love Like This"
+    artist: "Faith Evans"
+  - title: "Hey Mr DJ"
+    artist: "Zhané"
+  - title: "All About U"
+    artist: "2 Pac (feat Nate Dogg)"
+  
