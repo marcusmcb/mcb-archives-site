@@ -35,6 +35,9 @@ export const Sidebar = ({ genres, decades, stations }: Props) => {
   const activeDecade = (sp.get("decade") ?? "").trim().toLowerCase();
   const activeStation = (sp.get("station") ?? "").trim();
 
+  const hasActiveFilters = Boolean(activeGenre || activeDecade || activeStation);
+  const clearFiltersHref = buildHref(filterPath, sp, { genre: undefined, decade: undefined, station: undefined });
+
   const [genresOpen, setGenresOpen] = useState(true);
   const [decadesOpen, setDecadesOpen] = useState(false);
   const [stationsOpen, setStationsOpen] = useState(false);
@@ -99,6 +102,14 @@ export const Sidebar = ({ genres, decades, stations }: Props) => {
         <Link href="/">Home</Link>
         <Link href="/favorites">Favorites</Link>
         <Link href="/about">About</Link>
+        <Link
+          href={clearFiltersHref}
+          className={hasActiveFilters ? undefined : "isDisabled"}
+          aria-disabled={hasActiveFilters ? undefined : true}
+          title={hasActiveFilters ? "Clear genre/decade/station filters" : "No filters to clear"}
+        >
+          Clear Filters
+        </Link>
       </nav>
 
       <div className="filtersScroll">

@@ -36,6 +36,9 @@ export type ShowCard = {
   upvotes: number;
 };
 
+export type ShowSortBy = "station" | "original_broadcast" | "title";
+export type SortDir = "asc" | "desc";
+
 const showsCollection = async (): Promise<Collection<ShowDb>> => {
   const client = await getMongoClient();
   const { dbName } = getMongoEnv();
@@ -102,6 +105,8 @@ export const getShows = async ({
   genre,
   decade,
   station,
+  sortBy,
+  sortDir,
   page,
   limit
 }: {
@@ -109,6 +114,8 @@ export const getShows = async ({
   genre: string;
   decade: string;
   station: string;
+  sortBy?: ShowSortBy;
+  sortDir?: SortDir;
   page: number;
   limit: number | "all";
 }): Promise<{ shows: ShowCard[]; total: number }> => {
@@ -124,11 +131,26 @@ export const getShows = async ({
   if (station) filter.station = station;
   if (q) filter.$text = { $search: q };
 
-  const cursor = col.find(filter, q ? { projection: { score: { $meta: "textScore" } } } : undefined);
-  if (q) {
+  const safeDir: 1 | -1 = (sortDir ?? "desc") === "asc" ? 1 : -1;
+  const safeSortBy: ShowSortBy | null = sortBy ?? null;
+
+  const isSortingByRelevance = !!q && !safeSortBy;
+  const cursor = col.find(
+    filter,
+    isSortingByRelevance ? { projection: { score: { $meta: "textScore" } } } : undefined
+  );
+
+  if (isSortingByRelevance) {
     cursor.sort({ score: { $meta: "textScore" }, original_broadcast: -1 });
+  } else if (safeSortBy === "station") {
+    cursor.sort({ station: safeDir, original_broadcast: -1, id: 1 });
+    cursor.collation({ locale: "en", strength: 2 });
+  } else if (safeSortBy === "title") {
+    cursor.sort({ title: safeDir, original_broadcast: -1, id: 1 });
+    cursor.collation({ locale: "en", strength: 2 });
   } else {
-    cursor.sort({ original_broadcast: -1 });
+    // Default: newest first.
+    cursor.sort({ original_broadcast: safeDir, id: 1 });
   }
 
   const total = await col.countDocuments(filter);

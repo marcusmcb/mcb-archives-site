@@ -24,13 +24,26 @@ export const metadata: Metadata = {
 const Home = async ({
   searchParams
 }: {
-  searchParams?: Promise<{ q?: string; genre?: string; decade?: string; station?: string; page?: string }>;
+  searchParams?: Promise<{
+    q?: string;
+    genre?: string;
+    decade?: string;
+    station?: string;
+    sort?: string;
+    dir?: string;
+    page?: string;
+  }>;
 }) => {
   const sp = (await searchParams) ?? {};
   const q = (sp.q ?? "").trim();
   const genre = (sp.genre ?? "").trim().toLowerCase();
   const decade = (sp.decade ?? "").trim().toLowerCase();
   const station = (sp.station ?? "").trim();
+  const sortByRaw = (sp.sort ?? "").trim().toLowerCase();
+  const sortDirRaw = (sp.dir ?? "").trim().toLowerCase();
+  const sortBy =
+    sortByRaw === "station" || sortByRaw === "title" || sortByRaw === "original_broadcast" ? sortByRaw : undefined;
+  const sortDir = sortDirRaw === "asc" || sortDirRaw === "desc" ? sortDirRaw : undefined;
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
   const limit = 12;
 
@@ -40,7 +53,7 @@ const Home = async ({
   let randomShow: Awaited<ReturnType<typeof getRandomShow>> = null;
 
   try {
-    const result = await getShows({ q, genre, decade, station, page, limit });
+    const result = await getShows({ q, genre, decade, station, sortBy, sortDir, page, limit });
     shows = result.shows;
     total = result.total;
 
@@ -61,6 +74,9 @@ const Home = async ({
         genre={genre}
         decade={decade}
         station={station}
+        showSortControls
+        sortBy={sortBy ?? "original_broadcast"}
+        sortDir={sortDir ?? "desc"}
         rightSlot={
           <div style={{ color: "var(--muted)", fontSize: 12 }}>
             {total} show{total === 1 ? "" : "s"}
@@ -75,7 +91,9 @@ const Home = async ({
             href={`/?${new URLSearchParams({
               ...(q ? { q } : {}),
               ...(decade ? { decade } : {}),
-              ...(station ? { station } : {})
+              ...(station ? { station } : {}),
+              ...(sortBy ? { sort: sortBy } : {}),
+              ...(sortDir ? { dir: sortDir } : {})
             }).toString()}`}
           >
             Clear genre: {genre}
@@ -87,7 +105,9 @@ const Home = async ({
             href={`/?${new URLSearchParams({
               ...(q ? { q } : {}),
               ...(genre ? { genre } : {}),
-              ...(station ? { station } : {})
+              ...(station ? { station } : {}),
+              ...(sortBy ? { sort: sortBy } : {}),
+              ...(sortDir ? { dir: sortDir } : {})
             }).toString()}`}
           >
             Clear decade: {decade}
@@ -99,7 +119,9 @@ const Home = async ({
             href={`/?${new URLSearchParams({
               ...(q ? { q } : {}),
               ...(genre ? { genre } : {}),
-              ...(decade ? { decade } : {})
+              ...(decade ? { decade } : {}),
+              ...(sortBy ? { sort: sortBy } : {}),
+              ...(sortDir ? { dir: sortDir } : {})
             }).toString()}`}
           >
             Clear station: {station}
@@ -111,7 +133,9 @@ const Home = async ({
             href={`/?${new URLSearchParams({
               ...(genre ? { genre } : {}),
               ...(decade ? { decade } : {}),
-              ...(station ? { station } : {})
+              ...(station ? { station } : {}),
+              ...(sortBy ? { sort: sortBy } : {}),
+              ...(sortDir ? { dir: sortDir } : {})
             }).toString()}`}
           >
             Clear search
@@ -172,6 +196,8 @@ const Home = async ({
                 ...(genre ? { genre } : {}),
                 ...(decade ? { decade } : {}),
                 ...(station ? { station } : {}),
+                ...(sortBy ? { sort: sortBy } : {}),
+                ...(sortDir ? { dir: sortDir } : {}),
                 page: String(page - 1)
               }).toString()}`}
             >
@@ -186,6 +212,8 @@ const Home = async ({
                 ...(genre ? { genre } : {}),
                 ...(decade ? { decade } : {}),
                 ...(station ? { station } : {}),
+                ...(sortBy ? { sort: sortBy } : {}),
+                ...(sortDir ? { dir: sortDir } : {}),
                 page: String(page + 1)
               }).toString()}`}
             >

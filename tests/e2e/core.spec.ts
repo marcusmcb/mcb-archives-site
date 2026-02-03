@@ -103,4 +103,121 @@ test.describe("Core workflows", () => {
       }
     }
   });
+
+  test("Sort control updates URL query params", async ({ page, request }) => {
+    await requireSeededDb(request);
+
+    await page.goto("/");
+
+    const sortSelect = page.locator('select[aria-label="Sort shows"]');
+    await expect(sortSelect).toBeVisible();
+
+    await sortSelect.selectOption("station:asc");
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("sort"), { timeout: 10_000 })
+      .toBe("station");
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("dir"), { timeout: 10_000 })
+      .toBe("asc");
+  });
+
+  test("Clear Filters removes genre/decade/station but preserves q + sort", async ({ page, request }) => {
+    await requireSeededDb(request);
+
+    await page.goto("/");
+
+    // Set a sort so we can verify it survives filter clearing.
+    const sortSelect = page.locator('select[aria-label="Sort shows"]');
+    await expect(sortSelect).toBeVisible();
+    await sortSelect.selectOption("title:asc");
+
+    // Set a search query so we can verify it survives filter clearing.
+    await page.getByPlaceholder("Search shows by genre, artist, or song title…").fill("mix");
+    await page.getByRole("button", { name: "Search" }).click();
+    await expect(page).toHaveURL(/\?.*q=/);
+
+    // Apply a genre filter if present.
+    const genreLinks = page.locator("#sidebar-genres a");
+    const genreCount = await genreLinks.count();
+    test.skip(genreCount === 0, "No genres in sidebar.");
+    await genreLinks.first().click();
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("genre"), { timeout: 10_000 })
+      .not.toBeNull();
+
+    // Apply a station filter if present.
+    const expandStations = page.getByRole("button", { name: /expand stations/i });
+    if (await expandStations.isVisible()) {
+      await expandStations.click();
+      const stationLinks = page.locator("#sidebar-stations a");
+      if ((await stationLinks.count()) > 0) {
+        await stationLinks.first().click();
+        await expect
+          .poll(() => new URL(page.url()).searchParams.get("station"), { timeout: 10_000 })
+          .not.toBeNull();
+      }
+    }
+
+    // Clear filters via the new nav control.
+    await page.getByRole("link", { name: "Clear Filters" }).click();
+
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("genre"), { timeout: 10_000 })
+      .toBeNull();
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("decade"), { timeout: 10_000 })
+      .toBeNull();
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("station"), { timeout: 10_000 })
+      .toBeNull();
+
+    // But preserve q + sort/dir.
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("q"), { timeout: 10_000 })
+      .toBe("mix");
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("sort"), { timeout: 10_000 })
+      .toBe("title");
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("dir"), { timeout: 10_000 })
+      .toBe("asc");
+  });
+
+  test("API ignores invalid sort/dir params", async ({ request }) => {
+    await requireSeededDb(request);
+
+    const resp = await request.get("/api/shows?limit=1&page=1&sort=not-a-real-sort&dir=sideways");
+    expect(resp.ok()).toBeTruthy();
+    const data = (await resp.json()) as { shows?: unknown[]; total?: number };
+    expect(Array.isArray(data.shows)).toBeTruthy();
+    expect(typeof data.total).toBe("number");
+  });
+
+  test("Mobile drawer includes Clear Filters", async ({ page, request }) => {
+    await requireSeededDb(request);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    await page.getByRole("button", { name: /open menu/i }).click();
+    await expect(page.locator(".drawerPanel")).toBeVisible();
+
+    // Apply a genre filter from inside the drawer.
+    const drawerGenres = page.locator(".drawerPanel #sidebar-genres a");
+    const genreCount = await drawerGenres.count();
+    test.skip(genreCount === 0, "No genres in sidebar.");
+
+    const firstGenre = await drawerGenres.first().innerText();
+    await drawerGenres.first().click();
+
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("genre"), { timeout: 10_000 })
+      .toBe(firstGenre.toLowerCase());
+
+    // Now clear filters from the drawer nav.
+    await page.locator(".drawerPanel").getByRole("link", { name: "Clear Filters" }).click();
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get("genre"), { timeout: 10_000 })
+      .toBeNull();
+  });
 });
