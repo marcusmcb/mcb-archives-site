@@ -3,6 +3,7 @@ import "./globals.css";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 
+import { Analytics } from "@vercel/analytics/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
@@ -43,6 +44,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
             <main className="main">{children}</main>
           </div>
         </AudioPlayerProvider>
+        <Analytics />
       </body>
     </html>
   );
