@@ -45,7 +45,7 @@ const Home = async ({
     sortByRaw === "station" || sortByRaw === "title" || sortByRaw === "original_broadcast" ? sortByRaw : undefined;
   const sortDir = sortDirRaw === "asc" || sortDirRaw === "desc" ? sortDirRaw : undefined;
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
-  const limit = 12;
+  const limit = 16;
 
   let shows: Awaited<ReturnType<typeof getShows>>["shows"] = [];
   let total = 0;
