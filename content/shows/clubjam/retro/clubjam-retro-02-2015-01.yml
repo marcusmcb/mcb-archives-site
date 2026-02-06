@@ -1,0 +1,27 @@
+id: "clubjam-retro-02-2015-01"
+title: "ClubJam Retro, February 2015"
+image: "https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/images/clubjam/clubjam_retro_gpt_logo.png"
+audio_file_link: "https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/audio/clubjam/retro/clubjam-retro-02-2015-01.mp3"
+genres:
+  - "retro"
+  - "r&b"
+original_broadcast: "2015-02-02"
+original_broadcast_display: "February, 2015"
+decade: ["1980s", "1990s"]
+station: "ClubJam Retro"
+duration_seconds: 1423
+songs:
+  - title: "Shake You Down"
+    artist: "Gregory Abbott"
+  - title: "I Love Your Smile"
+    artist: "Shanice"
+  - title: "Friends"
+    artist: "Whodini"
+  - title: "Shy Guy"
+    artist: "Diana King"
+  - title: "One On One"
+    artist: "Daryl Hall & John Oates"
+  - title: "Kiss Them For Me"
+    artist: "Siouxsie & The Banshees"
+  - title: "The Tide Is High"
+    artist: "Blondie"
