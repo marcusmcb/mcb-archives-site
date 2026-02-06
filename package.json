@@ -17,6 +17,7 @@
     "test:e2e:headed": "playwright test --headed"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.6.1",
     "dotenv": "^16.4.7",
     "geist": "^1.4.2",
     "glob": "^11.0.0",
