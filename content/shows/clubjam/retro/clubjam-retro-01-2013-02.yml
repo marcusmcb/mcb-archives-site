@@ -1,0 +1,25 @@
+id: "clubjam-retro-01-2013-02"
+title: "ClubJam Retro, January 2013"
+image: "https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/images/clubjam/clubjam_retro_gpt_logo.png"
+audio_file_link: "https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/audio/clubjam/retro/clubjam-retro-01-2013-02.mp3"
+genres:
+  - "retro"
+  - "r&b"
+original_broadcast: "2013-01-01"
+original_broadcast_display: "January, 2013"
+decade: ["1980s", "1990s"]
+station: "ClubJam Retro"
+duration_seconds: 1317
+songs:
+  - title: "Perfect Way"
+    artist: "Scritti Politti"
+  - title: "She Drives Me Crazy"
+    artist: "Fine Young Cannibals"
+  - title: "Jealousy"
+    artist: "Club Nouveau"
+  - title: "Atomic Dog"
+    artist: "George Clinton"
+  - title: "Cruel Summer"
+    artist: "Bananarama"
+  - title: "Turn This Mutha Out"
+    artist: "MC Hammer"
