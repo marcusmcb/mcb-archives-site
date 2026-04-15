@@ -1,0 +1,28 @@
+id: "clubjam-classic-hip-hop-03-2021-02"
+title: "ClubJam Classic Hip Hop, March 2021"
+image: "https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/images/clubjam/clubjam_classic_hip_hop_gpt_logo.png"
+audio_file_link: "https://pub-7364f58a4f4e4cd489b1dc00ae789eb7.r2.dev/audio/clubjam/classic-hip-hop/clubjam-classic-hip-hop-03-2021-02.mp3"
+genres:
+  - "hip hop"
+  - "r&b"
+  - "old school"
+original_broadcast: "2021-03-01"
+original_broadcast_display: "March, 2021"
+decade: ["2000s", "1990s"]
+station: "ClubJam Classic Hip Hop"
+duration_seconds: 1564
+songs:
+  - title: "Ridin'"
+    artist: "Chamillionaire (feat Krayzie Bone)"
+  - title: "How Low?"
+    artist: "Ludacris"
+  - title: "Be Without You"
+    artist: "Mary J. Blige"
+  - title: "Welcome To Jamrock"
+    artist: "Damian Marley"
+  - title: "I Do"
+    artist: "Toya"
+  - title: "Shawty"
+    artist: "Plies (feat T-Pain)"
+  - title: "The Rain (Supa Dupa Fly)"
+    artist: "Missy Elliott"
